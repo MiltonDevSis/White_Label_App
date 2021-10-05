@@ -5,8 +5,9 @@ import com.example.white_label_app.data.ProductRepository
 import com.example.white_label_app.domain.model.Product
 import java.lang.Exception
 import java.util.*
+import javax.inject.Inject
 
-class CreateProductUseCaseImpl(
+class CreateProductUseCaseImpl @Inject constructor(
     private val uploadProductImageUseCase: UploadProductImageUseCase,
     private val productRepository: ProductRepository
 ) : CreateProductUseCase {

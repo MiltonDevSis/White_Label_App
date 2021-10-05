@@ -9,10 +9,13 @@ import androidx.lifecycle.viewModelScope
 import com.example.white_label_app.R
 import com.example.white_label_app.domain.usercase.CreateProductUseCase
 import com.example.white_label_app.utils.fromCurrency
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import javax.inject.Inject
 
-class AddProductViewModel(
+@HiltViewModel
+class AddProductViewModel @Inject constructor(
     private val createProductUseCase: CreateProductUseCase
 ) : ViewModel() {
 
@@ -34,26 +37,26 @@ class AddProductViewModel(
         _descriptionFieldErrorResId.value = getErrorStringResIdIfIsEmpty(description)
         _priceFieldErrorResId.value = getErrorStringResIdIfIsEmpty(price)
 
-        if (isFormValid){
+        if (isFormValid) {
             try {
                 val product = createProductUseCase(description, price.fromCurrency(), imageUri!!)
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 Log.d("CreateProduct", e.toString())
             }
         }
     }
 
     private fun getErrorStringResIdIfIsEmpty(value: String): Int? {
-        return if (value.isEmpty()){
+        return if (value.isEmpty()) {
             isFormValid = true
             R.string.add_product_field_error
-        }else null
+        } else null
     }
 
     private fun getDrawableResIdIfIsNull(value: Uri?): Int {
-        return if (value == null){
+        return if (value == null) {
             isFormValid = false
             R.drawable.background_product_image_error
-        }else R.drawable.background_product_image
+        } else R.drawable.background_product_image
     }
 }
