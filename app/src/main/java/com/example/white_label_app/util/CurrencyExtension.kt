@@ -1,10 +1,10 @@
-package com.example.white_label_app.utils
+package com.example.white_label_app.util
 
 import java.text.DecimalFormat
 
 private val onlyNumberRegex by lazy { "[^0-9 ]".toRegex() }
-private val DECIMAL_FACTOR = 100
-private val CURRENCY_PATTERN = "R$ #,###,##0.00"
+private const val DECIMAL_FACTOR = 100
+private const val CURRENCY_PATTERN = "R$ #,###,##0.00"
 
 fun String.fromCurrency(): Double = this
     .replace(onlyNumberRegex, "")

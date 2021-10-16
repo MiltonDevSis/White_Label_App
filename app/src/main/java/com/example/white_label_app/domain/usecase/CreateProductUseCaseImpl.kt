@@ -1,4 +1,4 @@
-package com.example.white_label_app.domain.usercase
+package com.example.white_label_app.domain.usecase
 
 import android.net.Uri
 import com.example.white_label_app.data.ProductRepository

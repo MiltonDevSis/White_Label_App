@@ -1,10 +1,12 @@
-package com.example.white_label_app.utils
+package com.example.white_label_app.util
 
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
 
-class CurrencyTextWatcher(private val editText: EditText) : TextWatcher {
+class CurrencyTextWatcher(
+    private val editText: EditText
+) : TextWatcher {
 
     private var currentValue: String = ""
 
@@ -41,6 +43,6 @@ class CurrencyTextWatcher(private val editText: EditText) : TextWatcher {
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        // no used
+        // not used
     }
 }

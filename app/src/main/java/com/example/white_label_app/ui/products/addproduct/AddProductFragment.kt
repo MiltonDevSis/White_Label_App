@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import com.example.white_label_app.databinding.AddProductFragmentBinding
-import com.example.white_label_app.utils.CurrencyTextWatcher
+import com.example.white_label_app.util.CurrencyTextWatcher
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,17 +16,18 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class AddProductFragment : BottomSheetDialogFragment() {
 
-    private var _binding : AddProductFragmentBinding? = null
+    private var _binding: AddProductFragmentBinding? = null
     private val binding get() = _binding!!
-
-    private val viewModel: AddProductViewModel by viewModels()
 
     private var imageUri: Uri? = null
 
-    private val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+    private val getContent =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             imageUri = uri
             binding.imageProduct.setImageURI(uri)
         }
+
+    private val viewModel: AddProductViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,18 +35,17 @@ class AddProductFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = AddProductFragmentBinding.inflate(inflater, container, false)
-        return _binding!!.root
-
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         observeVMEvents()
-        setListener()
+        setListeners()
     }
 
-    private fun observeVMEvents(){
+    private fun observeVMEvents() {
         viewModel.imageUriErrorResId.observe(viewLifecycleOwner) { drawableResId ->
             binding.imageProduct.setBackgroundResource(drawableResId)
         }
@@ -54,18 +54,18 @@ class AddProductFragment : BottomSheetDialogFragment() {
             binding.inputLayoutDescription.setError(stringResId)
         }
 
-        viewModel.priceFieldErrorResId.observe(viewLifecycleOwner) {stringResId ->
+        viewModel.priceFieldErrorResId.observe(viewLifecycleOwner) { stringResId ->
             binding.inputLayoutPrice.setError(stringResId)
         }
     }
 
-    private fun TextInputLayout.setError(stringResId: Int?){
-        error = if (stringResId != null){
+    private fun TextInputLayout.setError(stringResId: Int?) {
+        error = if (stringResId != null) {
             getString(stringResId)
-        }else null
+        } else null
     }
 
-    private fun setListener(){
+    private fun setListeners() {
         binding.imageProduct.setOnClickListener {
             chooseImage()
         }
@@ -82,8 +82,7 @@ class AddProductFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun chooseImage(){
+    private fun chooseImage() {
         getContent.launch("image/*")
     }
-
 }

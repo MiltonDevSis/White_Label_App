@@ -1,4 +1,4 @@
-package com.example.white_label_app.utils
+package com.example.white_label_app.util
 
 const val COLLECTION_ROOT = "data"
 const val COLLECTION_PRODUCTS = "products"

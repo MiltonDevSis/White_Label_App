@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_main"
-    app:startDestination="@id/productsFragment">
+    app:startDestination="@id/addProductFragment">
 
 
     <fragment
         android:id="@+id/productsFragment"
         android:name="com.example.white_label_app.ui.products.ProductsFragment"
         android:label="@string/products_screen_title"
-        tools:layout="@layout/fragment_products" >
+        tools:layout="@layout/fragment_products">
         <action
             android:id="@+id/action_productsFragment_to_addProductFragment"
             app:destination="@id/addProductFragment" />

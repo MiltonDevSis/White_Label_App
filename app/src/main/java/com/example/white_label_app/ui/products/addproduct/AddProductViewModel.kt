@@ -7,11 +7,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.white_label_app.R
-import com.example.white_label_app.domain.usercase.CreateProductUseCase
-import com.example.white_label_app.utils.fromCurrency
+import com.example.white_label_app.domain.usecase.CreateProductUseCase
+import com.example.white_label_app.util.fromCurrency
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,17 +24,17 @@ class AddProductViewModel @Inject constructor(
     private val _descriptionFieldErrorResId = MutableLiveData<Int?>()
     val descriptionFieldErrorResId: LiveData<Int?> = _descriptionFieldErrorResId
 
-    private val _priceFieldErrorResId = MutableLiveData<Int>()
-    val priceFieldErrorResId: LiveData<Int> = _priceFieldErrorResId
+    private val _priceFieldErrorResId = MutableLiveData<Int?>()
+    val priceFieldErrorResId: LiveData<Int?> = _priceFieldErrorResId
 
     private var isFormValid = false
 
     fun createProduct(description: String, price: String, imageUri: Uri?) = viewModelScope.launch {
         isFormValid = true
 
-        _imageUriErrorResId.value = getDrawableResIdIfIsNull(imageUri)
-        _descriptionFieldErrorResId.value = getErrorStringResIdIfIsEmpty(description)
-        _priceFieldErrorResId.value = getErrorStringResIdIfIsEmpty(price)
+        _imageUriErrorResId.value = getDrawableResIdIfNull(imageUri)
+        _descriptionFieldErrorResId.value = getErrorStringResIdIfEmpty(description)
+        _priceFieldErrorResId.value = getErrorStringResIdIfEmpty(price)
 
         if (isFormValid) {
             try {
@@ -46,14 +45,14 @@ class AddProductViewModel @Inject constructor(
         }
     }
 
-    private fun getErrorStringResIdIfIsEmpty(value: String): Int? {
+    private fun getErrorStringResIdIfEmpty(value: String): Int? {
         return if (value.isEmpty()) {
-            isFormValid = true
+            isFormValid = false
             R.string.add_product_field_error
         } else null
     }
 
-    private fun getDrawableResIdIfIsNull(value: Uri?): Int {
+    private fun getDrawableResIdIfNull(value: Uri?): Int {
         return if (value == null) {
             isFormValid = false
             R.drawable.background_product_image_error

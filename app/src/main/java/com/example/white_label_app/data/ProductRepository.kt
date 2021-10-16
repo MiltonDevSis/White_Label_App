@@ -8,9 +8,11 @@ class ProductRepository @Inject constructor(
     private val dataSource: ProductDataSource
 ) {
 
-    suspend fun getProduct(): List<Product> = dataSource.getProduct()
+    suspend fun getProducts(): List<Product> = dataSource.getProducts()
 
-    suspend fun uploadProductImage(image: Uri): String = dataSource.uploadProductImage(image)
+    suspend fun uploadProductImage(imageUri: Uri): String =
+        dataSource.uploadProductImage(imageUri)
 
-    suspend fun createProduct(product: Product): Product = dataSource.createProduct(product)
+    suspend fun createProduct(product: Product): Product =
+        dataSource.createProduct(product)
 }

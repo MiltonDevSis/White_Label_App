@@ -3,16 +3,16 @@ package com.example.white_label_app.data
 import android.net.Uri
 import com.example.white_label_app.BuildConfig
 import com.example.white_label_app.domain.model.Product
-import com.example.white_label_app.utils.COLLECTION_PRODUCTS
-import com.example.white_label_app.utils.COLLECTION_ROOT
-import com.example.white_label_app.utils.STORAGE_IMAGES
+import com.example.white_label_app.util.COLLECTION_PRODUCTS
+import com.example.white_label_app.util.COLLECTION_ROOT
+import com.example.white_label_app.util.STORAGE_IMAGES
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*
 import javax.inject.Inject
 import kotlin.coroutines.suspendCoroutine
 
-class FirebaseProductDataSource @Inject constructor (
+class FirebaseProductDataSource @Inject constructor(
     firebaseFirestore: FirebaseFirestore,
     firebaseStorage: FirebaseStorage
 ) : ProductDataSource {
@@ -22,34 +22,34 @@ class FirebaseProductDataSource @Inject constructor (
 
     private val storageReference = firebaseStorage.reference
 
-    override suspend fun getProduct(): List<Product> {
-
+    override suspend fun getProducts(): List<Product> {
         return suspendCoroutine { continuation ->
-            val productReference = documentReference.collection(COLLECTION_PRODUCTS)
-            productReference.get().addOnSuccessListener { documents ->
+            val productsReference = documentReference.collection(COLLECTION_PRODUCTS)
+            productsReference.get().addOnSuccessListener { documents ->
                 val products = mutableListOf<Product>()
                 for (document in documents) {
                     document.toObject(Product::class.java).run {
                         products.add(this)
                     }
                 }
+
                 continuation.resumeWith(Result.success(products))
             }
 
-            productReference.get().addOnFailureListener { exception ->
+            productsReference.get().addOnFailureListener { exception ->
                 continuation.resumeWith(Result.failure(exception))
             }
         }
-
     }
 
-    override suspend fun uploadProductImage(image: Uri): String {
+    override suspend fun uploadProductImage(imageUri: Uri): String {
         return suspendCoroutine { continuation ->
             val randomKey = UUID.randomUUID()
             val childReference = storageReference.child(
                 "$STORAGE_IMAGES/${BuildConfig.FIREBASE_FLAVOR_COLLECTION}/$randomKey"
             )
-            childReference.putFile(image)
+
+            childReference.putFile(imageUri)
                 .addOnSuccessListener { taskSnapshot ->
                     taskSnapshot.storage.downloadUrl.addOnSuccessListener { uri ->
                         val path = uri.toString()
@@ -62,14 +62,15 @@ class FirebaseProductDataSource @Inject constructor (
     }
 
     override suspend fun createProduct(product: Product): Product {
-        return  suspendCoroutine { continuation ->  
+        return suspendCoroutine { continuation ->
             documentReference
                 .collection(COLLECTION_PRODUCTS)
                 .document(System.currentTimeMillis().toString())
                 .set(product)
                 .addOnSuccessListener {
                     continuation.resumeWith(Result.success(product))
-                }.addOnFailureListener { exception ->
+                }
+                .addOnFailureListener { exception ->
                     continuation.resumeWith(Result.failure(exception))
                 }
         }

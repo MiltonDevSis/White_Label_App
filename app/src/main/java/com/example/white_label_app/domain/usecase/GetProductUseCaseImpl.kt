@@ -1,4 +1,4 @@
-package com.example.white_label_app.domain.usercase
+package com.example.white_label_app.domain.usecase
 
 import com.example.white_label_app.data.ProductRepository
 import com.example.white_label_app.domain.model.Product
@@ -6,9 +6,9 @@ import javax.inject.Inject
 
 class GetProductUseCaseImpl @Inject constructor(
     private val productRepository: ProductRepository
-): GetProductsUseCase {
+) : GetProductsUseCase {
 
     override suspend fun invoke(): List<Product> {
-        return productRepository.getProduct()
+        return productRepository.getProducts()
     }
 }
