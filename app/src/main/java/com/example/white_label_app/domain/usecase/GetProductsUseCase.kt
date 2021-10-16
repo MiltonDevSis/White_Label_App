@@ -1,6 +1,7 @@
-package br.com.douglasmotta.whitelabeltutorial.domain.usecase
+package com.example.white_label_app.domain.usecase
 
-import br.com.douglasmotta.whitelabeltutorial.domain.model.Product
+import com.example.white_label_app.domain.model.Product
+
 
 interface GetProductsUseCase {
 

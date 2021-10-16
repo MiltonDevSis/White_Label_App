@@ -1,4 +1,4 @@
-package com.example.white_label_app.di
+package com.example.white_label_app.domain.usecase.di
 
 import com.example.white_label_app.domain.usecase.*
 import dagger.Binds

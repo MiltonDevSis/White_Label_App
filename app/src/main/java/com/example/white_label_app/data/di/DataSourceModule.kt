@@ -1,4 +1,4 @@
-package com.example.white_label_app.di
+package com.example.white_label_app.data.di
 
 import com.example.white_label_app.data.FirebaseProductDataSource
 import com.example.white_label_app.data.ProductDataSource
