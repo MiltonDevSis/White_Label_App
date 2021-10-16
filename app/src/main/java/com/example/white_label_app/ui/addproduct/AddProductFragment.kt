@@ -1,4 +1,4 @@
-package com.example.white_label_app.ui.products.addproduct
+package com.example.white_label_app.ui.addproduct
 
 import android.net.Uri
 import android.os.Bundle
